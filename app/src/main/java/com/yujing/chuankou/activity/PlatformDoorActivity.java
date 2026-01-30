@@ -133,26 +133,29 @@ public class PlatformDoorActivity extends KBaseActivity<ActivityPlatformDoorBind
 
         String displayText = sb.toString();
         int crcStatusStart = displayText.length();
-
+        
+        String statusText;
+        int statusColor;
         if (result.valid) {
-            displayText += "通过 ✓\n";
+            statusText = "通过 ✓";
+            statusColor = 0xFF4CAF50;  // Green
         } else {
-            displayText += "失败 ✗\n";
-            if (result.errorMessage != null) {
-                displayText += "  └─ 错误：" + result.errorMessage + "\n";
-            }
+            statusText = "失败 ✗";
+            statusColor = 0xFFF44336;  // Red
+        }
+        
+        displayText += statusText + "\n";
+        int crcStatusEnd = crcStatusStart + statusText.length();
+        
+        if (!result.valid && result.errorMessage != null) {
+            displayText += "  └─ 错误：" + result.errorMessage + "\n";
         }
         displayText += "\n";
 
         //使用SpannableString为CRC状态添加颜色
         SpannableString spannableString = new SpannableString(displayText);
-        if (result.valid) {
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")),
-                    crcStatusStart, crcStatusStart + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#F44336")),
-                    crcStatusStart, crcStatusStart + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        spannableString.setSpan(new ForegroundColorSpan(statusColor),
+                crcStatusStart, crcStatusEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //显示接收数据
         if (binding.tvReceive.getText().toString().length() > 10000)
