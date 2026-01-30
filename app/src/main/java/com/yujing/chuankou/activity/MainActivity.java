@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         binding.ButtonQuit.setOnClickListener(v -> finish());
         binding.btnAuthor.setOnClickListener(v -> startActivity(MyMainActivity.class));
         binding.btnToWifi.setOnClickListener(v -> startActivity(SerialPortToWiFiActivity.class));
+        binding.btnPlatformDoor.setOnClickListener(v -> startActivity(PlatformDoorActivity.class));
         binding.ButtonSendWords.setOnClickListener(v -> startActivity(SendActivity.class));
         binding.ButtonAbout.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
