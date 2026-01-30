@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f0f0f0"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/title"
+            android:paddingTop="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10">
+
+            <RelativeLayout
+                android:id="@+id/rl_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_click"
+                android:padding="@dimen/dp5">
+
+                <ImageView
+                    android:layout_width="@dimen/dp50"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/back" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="站台门调试助手"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp45"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/include_set"
+            layout="@layout/view_set" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="@dimen/dp10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Test Commands Section -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="测试命令"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp35"
+                    android:textStyle="bold"
+                    android:paddingBottom="@dimen/dp10" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp5">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_all_rise"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/dp5"
+                        android:text="全部上升"
+                        android:textColor="@color/white"
+                        app:cornerRadius="@dimen/dp10" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_all_descend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:text="全部下降"
+                        android:textColor="@color/white"
+                        app:cornerRadius="@dimen/dp10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp5">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_all_stop"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/dp5"
+                        android:text="全部停止"
+                        android:textColor="@color/white"
+                        app:cornerRadius="@dimen/dp10" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_short_rise"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:text="短编上升"
+                        android:textColor="@color/white"
+                        app:cornerRadius="@dimen/dp10" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_reconnect_rise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp5"
+                    android:text="重联上升"
+                    android:textColor="@color/white"
+                    app:cornerRadius="@dimen/dp10" />
+
+                <!-- Custom Command Section -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:text="自定义命令"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp35"
+                    android:textStyle="bold"
+                    android:paddingBottom="@dimen/dp10" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="输入十六进制命令"
+                    app:boxBackgroundMode="outline">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_custom_command"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textSize="@dimen/sp30" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_send_custom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:text="发送自定义命令"
+                    android:textColor="@color/white"
+                    app:cornerRadius="@dimen/dp10" />
+
+                <!-- Received Data Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:paddingBottom="@dimen/dp10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="接收数据"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp35"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_clear_receive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="清空"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp30"
+                        android:background="@drawable/item_click"
+                        android:padding="@dimen/dp5" />
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp400"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/dp10">
+
+                    <TextView
+                        android:id="@+id/tv_receive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp28"
+                        android:textIsSelectable="true" />
+                </ScrollView>
+
+                <!-- Send Log Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:paddingBottom="@dimen/dp10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="发送日志"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp35"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_clear_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="清空"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp30"
+                        android:background="@drawable/item_click"
+                        android:padding="@dimen/dp5" />
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp300"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/dp10">
+
+                    <TextView
+                        android:id="@+id/tv_send"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp28"
+                        android:textIsSelectable="true" />
+                </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>
