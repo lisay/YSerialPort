@@ -138,10 +138,10 @@ public class PlatformDoorActivity extends KBaseActivity<ActivityPlatformDoorBind
         int statusColor;
         if (result.valid) {
             statusText = "通过 ✓";
-            statusColor = 0xFF4CAF50;  // Green
+            statusColor = 0xFF4CAF50;  // Green - 正常数据
         } else {
             statusText = "失败 ✗";
-            statusColor = 0xFFF44336;  // Red
+            statusColor = 0xFFF44336;  // Red - 异常数据
         }
         
         displayText += statusText + "\n";
@@ -156,10 +156,10 @@ public class PlatformDoorActivity extends KBaseActivity<ActivityPlatformDoorBind
         }
         displayText += "\n";
 
-        //使用SpannableString为CRC状态添加颜色
+        //使用SpannableString为整个数据块添加颜色（异常数据标记为红色，正常数据标记为绿色）
         SpannableString spannableString = new SpannableString(displayText);
         spannableString.setSpan(new ForegroundColorSpan(statusColor),
-                crcStatusStart, crcStatusEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                0, displayText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //显示接收数据
         if (binding.tvReceive.getText().toString().length() > 10000)
