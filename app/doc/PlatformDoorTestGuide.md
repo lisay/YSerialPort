@@ -55,8 +55,10 @@
 **Expected Result (预期结果):**
 - Command is parsed correctly
 - Command name is identified (e.g., "全部上升")
-- CRC validation shows "通过 ✓" in green color
+- CRC validation shows "通过 ✓"
+- **Entire data block is displayed in GREEN color** (正常数据整体显示为绿色)
 - Hex string is displayed
+- Status shows "解析成功"
 
 **Test Data (测试数据):**
 ```
@@ -78,7 +80,8 @@
 
 **Expected Result (预期结果):**
 - Command is marked as "未知命令"
-- CRC validation shows "失败 ✗" in red color
+- CRC validation shows "失败 ✗"
+- **Entire data block is displayed in RED color** (异常数据整体显示为红色)
 - Error message shows "CRC校验失败"
 
 **Test Data (测试数据):**
