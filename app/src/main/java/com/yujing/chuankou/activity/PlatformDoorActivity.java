@@ -147,8 +147,12 @@ public class PlatformDoorActivity extends KBaseActivity<ActivityPlatformDoorBind
         displayText += statusText + "\n";
         int crcStatusEnd = crcStatusStart + statusText.length();
         
-        if (!result.valid && result.errorMessage != null) {
+        // Show error message if present (either CRC failed or unknown command)
+        if (result.errorMessage != null) {
             displayText += "  └─ 错误：" + result.errorMessage + "\n";
+        } else if (result.valid && result.commandType != PlatformDoorParser.CMD_UNKNOWN) {
+            // Known command with valid CRC - show success
+            displayText += "  └─ 状态：解析成功\n";
         }
         displayText += "\n";
 

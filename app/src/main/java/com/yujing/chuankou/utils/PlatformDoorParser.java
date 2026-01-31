@@ -123,6 +123,7 @@ public class PlatformDoorParser {
         // Identify command type based on byte 6 and byte 8
         int commandType = CMD_UNKNOWN;
         String commandName = "未知命令";
+        String errorMessage = null;
         
         // Check command pattern
         // All commands start with: 5A 02 7E 00 04 08
@@ -160,7 +161,12 @@ public class PlatformDoorParser {
             }
         }
         
-        return new ParseResult(crcValid, commandType, commandName, null, hexString);
+        // If CRC is valid but command is unknown, set error message
+        if (crcValid && commandType == CMD_UNKNOWN) {
+            errorMessage = "CRC校验通过但不是已知命令";
+        }
+        
+        return new ParseResult(crcValid, commandType, commandName, errorMessage, hexString);
     }
     
     /**

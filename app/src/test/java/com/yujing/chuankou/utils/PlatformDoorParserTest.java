@@ -161,4 +161,18 @@ public class PlatformDoorParserTest {
         assertEquals("Should be CMD_UNKNOWN", PlatformDoorParser.CMD_UNKNOWN, result.commandType);
         assertEquals("Error message should indicate CRC failure", "CRC校验失败", result.errorMessage);
     }
+
+    @Test
+    public void testParseCommand_UnknownCommandWithValidCRC() {
+        // Valid CRC but unknown command pattern (changed byte 6 from F1 to AA)
+        // Calculate correct CRC for: 5A 02 7E 00 04 08 AA 03 02 01 80 A5
+        String hexString = "5A027E000408AA03020180A546F1";
+        PlatformDoorParser.ParseResult result = PlatformDoorParser.parseCommand(hexString);
+        
+        assertTrue("CRC should be valid", result.valid);
+        assertEquals("Should be CMD_UNKNOWN", PlatformDoorParser.CMD_UNKNOWN, result.commandType);
+        assertEquals("Command name should be '未知命令'", "未知命令", result.commandName);
+        assertNotNull("Error message should not be null", result.errorMessage);
+        assertEquals("Error message should indicate unknown command", "CRC校验通过但不是已知命令", result.errorMessage);
+    }
 }
