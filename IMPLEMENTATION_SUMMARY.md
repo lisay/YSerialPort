@@ -51,6 +51,17 @@ This implementation adds a complete Platform Door Debug Assistant to the YSerial
 CRC校验验证
 用户友好的错误消息
 
+### 5. Color Coding (颜色标记) - v1.1.0
+- Visual status indication through color coding
+- Normal data (CRC valid): Green display
+- Abnormal data (CRC invalid): Red display
+- Entire data block colored for quick identification
+
+通过颜色标记提供视觉状态指示
+正常数据（CRC有效）：绿色显示
+异常数据（CRC无效）：红色显示
+整个数据块着色以便快速识别
+
 ## Files Created/Modified (创建/修改的文件)
 
 ### New Files (新文件)
@@ -169,3 +180,28 @@ Potential areas for future improvement:
 This implementation provides a complete, professional-grade Platform Door Debug Assistant that integrates seamlessly with the existing YSerialPort application. The code is well-tested, documented, and ready for production use.
 
 本实现提供了一个完整的、专业级的站台门调试助手，与现有的YSerialPort应用无缝集成。代码经过良好测试、文档完整，可投入生产使用。
+
+### Recent Updates (最新更新)
+
+#### v1.1.0 (2026-01-31) - Color Coding Feature
+Added comprehensive color coding for received data:
+- **Normal data** (CRC valid): Entire block displayed in GREEN (#4CAF50)
+- **Abnormal data** (CRC invalid): Entire block displayed in RED (#F44336)
+
+新增接收数据的全面颜色标记：
+- **正常数据**（CRC有效）：整个数据块以绿色显示 (#4CAF50)
+- **异常数据**（CRC无效）：整个数据块以红色显示 (#F44336)
+
+**Implementation Details:**
+- Modified: PlatformDoorActivity.java (4 lines)
+- Updated: Documentation files (2 files)
+- Code Review: ✅ Passed
+- Security Scan (CodeQL): ✅ Passed (0 alerts)
+- Impact: Visual enhancement only, no business logic changes
+
+**实现细节：**
+- 修改：PlatformDoorActivity.java（4行）
+- 更新：文档文件（2个文件）
+- 代码审查：✅ 通过
+- 安全扫描（CodeQL）：✅ 通过（0个警报）
+- 影响：仅视觉增强，无业务逻辑更改
