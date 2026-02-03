@@ -30,6 +30,8 @@ import java.util.Vector;
  */
 public class SerialPortFinder {
     private static final String TAG = "SerialPort";
+    // 常见的串口设备模式
+    private static final String[] SERIAL_PORT_PATTERNS = {"ttyS", "ttyUSB", "ttyACM", "ttyAMA", "rfcomm", "ttyO"};
     private Vector<Driver> mDrivers = null;
 
     Vector<Driver> getDrivers() throws IOException {
@@ -77,15 +79,9 @@ public class SerialPortFinder {
             }
         } catch (IOException e) {
             Log.w(TAG, "无法从 /proc/tty/drivers 获取串口，尝试直接扫描", e);
-            // 备用方案：直接扫描/dev目录查找串口设备
-            Vector<String> paths = scanDevicesDirectly();
-            for (String path : paths) {
-                String device = new File(path).getName();
-                devices.add(device + " (直接扫描)");
-            }
         }
         
-        // 如果通过驱动方式没找到设备，也尝试直接扫描
+        // 如果通过驱动方式没找到设备，使用直接扫描
         if (devices.isEmpty()) {
             Log.i(TAG, "未找到串口设备，尝试直接扫描 /dev 目录");
             Vector<String> paths = scanDevicesDirectly();
@@ -117,11 +113,9 @@ public class SerialPortFinder {
             }
         } catch (IOException e) {
             Log.w(TAG, "无法从 /proc/tty/drivers 获取串口，尝试直接扫描", e);
-            // 备用方案：直接扫描/dev目录查找串口设备
-            devices = scanDevicesDirectly();
         }
         
-        // 如果通过驱动方式没找到设备，也尝试直接扫描
+        // 如果通过驱动方式没找到设备，使用直接扫描
         if (devices.isEmpty()) {
             Log.i(TAG, "未找到串口设备，尝试直接扫描 /dev 目录");
             devices = scanDevicesDirectly();
@@ -142,13 +136,10 @@ public class SerialPortFinder {
         File[] files = dev.listFiles();
         
         if (files != null) {
-            // 常见的串口设备模式
-            String[] patterns = {"ttyS", "ttyUSB", "ttyACM", "ttyAMA", "rfcomm", "ttyO"};
-            
             for (File file : files) {
                 String name = file.getName();
                 // 检查文件名是否匹配常见串口模式
-                for (String pattern : patterns) {
+                for (String pattern : SERIAL_PORT_PATTERNS) {
                     if (name.startsWith(pattern)) {
                         String path = file.getAbsolutePath();
                         devices.add(path);
