@@ -39,13 +39,19 @@ public class SerialPortFinder {
                 String l;
                 while ((l = r.readLine()) != null) {
                     // 由于驱动程序名可能包含空格，我们不使用split（）提取驱动程序名
-                    String driverName = l.substring(0, 0x15).trim();
+                    // 修复: 不再使用固定长度0x15(21字节)来提取驱动名称
                     String[] w = l.split(" +");
                     if ((w.length >= 5) && (w[w.length - 1].equals("serial"))) {
-                        Log.d(TAG, "Found new driver " + driverName + " on " + w[w.length - 4]);
-                        mDrivers.add(new Driver(driverName, w[w.length - 4]));
+                        // 驱动名称是第一个字段
+                        String driverName = w[0];
+                        String deviceRoot = w[w.length - 4];
+                        Log.d(TAG, "Found new driver " + driverName + " on " + deviceRoot);
+                        mDrivers.add(new Driver(driverName, deviceRoot));
                     }
                 }
+            } catch (IOException e) {
+                Log.w(TAG, "无法读取 /proc/tty/drivers，将使用直接扫描方式", e);
+                throw e;
             }
         }
         return mDrivers;
@@ -70,8 +76,25 @@ public class SerialPortFinder {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "无法从 /proc/tty/drivers 获取串口，尝试直接扫描", e);
+            // 备用方案：直接扫描/dev目录查找串口设备
+            Vector<String> paths = scanDevicesDirectly();
+            for (String path : paths) {
+                String device = new File(path).getName();
+                devices.add(device + " (直接扫描)");
+            }
         }
+        
+        // 如果通过驱动方式没找到设备，也尝试直接扫描
+        if (devices.isEmpty()) {
+            Log.i(TAG, "未找到串口设备，尝试直接扫描 /dev 目录");
+            Vector<String> paths = scanDevicesDirectly();
+            for (String path : paths) {
+                String device = new File(path).getName();
+                devices.add(device + " (直接扫描)");
+            }
+        }
+        
         return devices.toArray(new String[0]);
     }
 
@@ -93,9 +116,52 @@ public class SerialPortFinder {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "无法从 /proc/tty/drivers 获取串口，尝试直接扫描", e);
+            // 备用方案：直接扫描/dev目录查找串口设备
+            devices = scanDevicesDirectly();
         }
+        
+        // 如果通过驱动方式没找到设备，也尝试直接扫描
+        if (devices.isEmpty()) {
+            Log.i(TAG, "未找到串口设备，尝试直接扫描 /dev 目录");
+            devices = scanDevicesDirectly();
+        }
+        
         return devices.toArray(new String[0]);
+    }
+
+    /**
+     * 直接扫描/dev目录查找常见的串口设备
+     * 这是当/proc/tty/drivers不可用时的备用方案
+     *
+     * @return 设备路径列表
+     */
+    private Vector<String> scanDevicesDirectly() {
+        Vector<String> devices = new Vector<>();
+        File dev = new File("/dev");
+        File[] files = dev.listFiles();
+        
+        if (files != null) {
+            // 常见的串口设备模式
+            String[] patterns = {"ttyS", "ttyUSB", "ttyACM", "ttyAMA", "rfcomm", "ttyO"};
+            
+            for (File file : files) {
+                String name = file.getName();
+                // 检查文件名是否匹配常见串口模式
+                for (String pattern : patterns) {
+                    if (name.startsWith(pattern)) {
+                        String path = file.getAbsolutePath();
+                        devices.add(path);
+                        Log.d(TAG, "直接扫描找到设备: " + path);
+                        break;
+                    }
+                }
+            }
+        } else {
+            Log.e(TAG, "无法访问 /dev 目录");
+        }
+        
+        return devices;
     }
 
     /**
