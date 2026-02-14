@@ -69,12 +69,18 @@ Click predefined buttons to quickly send test commands:
 - 验证CRC校验
 - 显示详细信息
 - 标记错误（如CRC校验失败）
+- **颜色标记数据状态**：
+  - 正常数据（CRC校验通过）：绿色显示
+  - 异常数据（CRC校验失败）：红色显示
 
 Received data will automatically:
 - Parse command type
 - Validate CRC checksum
 - Display detailed information
 - Mark errors (e.g., CRC validation failure)
+- **Color-code data status**:
+  - Normal data (CRC valid): Green display
+  - Abnormal data (CRC invalid): Red display
 
 ## 命令格式 (Command Format)
 
@@ -187,6 +193,12 @@ Test coverage:
 3. 建议在实际设备上测试，模拟器可能不支持串口功能
 
 ## 版本历史 (Version History)
+
+### v1.1.0 (2026-01-31)
+- 新增功能：接收数据颜色标记
+  - 正常数据（CRC校验通过）显示为绿色
+  - 异常数据（CRC校验失败）显示为红色
+  - 提升用户体验，便于快速识别数据状态
 
 ### v1.0.0 (2026-01-30)
 - 初始版本
